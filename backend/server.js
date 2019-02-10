@@ -9,9 +9,12 @@ const API_PORT = 3001;
 const app = express();
 const router = express.Router();
 
+// Generando estructura mas compleja
+const product = require('./routes/product.route');
+
 // this is our MongoDB database
-const dbRoute = "mongodb://jelo:a9bc839993@ds151382.mlab.com:51382/jelotest";
-// const dbRoute = "mongodb://ffp:willffp1234@ds129540.mlab.com:29540/mongo_db";
+// const dbRoute = "mongodb://jelo:a9bc839993@ds151382.mlab.com:51382/jelotest";
+const dbRoute = "mongodb://ffp:willffp1234@ds129540.mlab.com:29540/mongo_db";
 
 // connects our back end code with the database
 mongoose.connect(
@@ -92,6 +95,7 @@ router.post("/putData", (req, res) => {
 
 // append /api for our http requests
 app.use("/api", router);
+app.use("/products", product);
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
