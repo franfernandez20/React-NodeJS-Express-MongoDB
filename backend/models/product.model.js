@@ -8,10 +8,18 @@ let ProductSchema = new Schema({
         required: true,
         max: 100 
     },
-    price: {
+    pvr: {
         type: Number,
         required: true 
     },
+    pvp: Number,
+    pvi: Number,
+    pc: Number,
+    stoked: Boolean,
+    stock: Number,
+    stockMin: Number,
+    category: String,
+    description: String
 });
 
 // Exportacion del modelo

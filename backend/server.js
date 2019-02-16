@@ -11,6 +11,7 @@ const router = express.Router();
 
 // Generando estructura mas compleja
 const product = require('./routes/product.route');
+const sale = require('./routes/sale.route');
 
 // this is our MongoDB database
 // const dbRoute = "mongodb://jelo:a9bc839993@ds151382.mlab.com:51382/jelotest";
@@ -35,7 +36,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 
-// Añadido para gestion consumir los datos desde la misma direccion en que esta la api y que no proteste el navegador
+// Añadido para gestion consumir los datos desde la misma direccion en que esta la api y que no 
+// proteste el navegador
+// TBD -- Quitar cuando se despliegue
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -96,6 +99,7 @@ router.post("/putData", (req, res) => {
 // append /api for our http requests
 app.use("/api", router);
 app.use("/products", product);
+app.use("/sales", sale);
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
