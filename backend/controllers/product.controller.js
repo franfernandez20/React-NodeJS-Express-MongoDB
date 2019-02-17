@@ -37,12 +37,25 @@ exports.product_create = (req, res) => {
     });
 };
 
-exports.product_details = (req, res) => {
+exports.product_details = (req, res, next) => {
     Product.findById(req.params.id, (err, product) => {
         if (err) return next(err);
         res.send(product);
     });
 };
+
+exports.product_find = (req, res, next) => {
+    const { name, category, description } = req.query;
+    const query = {
+        name: new RegExp(name,'i'),
+        category: new RegExp(category,'i'),
+        description: new RegExp(description,'i')
+    }
+    Product.find(query, (err, product) => {
+        if (err) return next(err);
+        return res.json({ success: true, result: product });
+    })
+}
 
 exports.product_update = (req, res) => {
     Product.findByIdAndUpdate(req.params.id, {$set: req.body }, (err, product) => {
