@@ -26,12 +26,21 @@ exports.sale_create = (req, res) => {
     });
 };
 
-exports.sale_products_create = (req, res) => {
+// POST -- sales/betacreate
+/* saleProduct = Agrupar el precio que el producto toma para la venta
+    { 
+        product: idProduct,
+        salePrice: number 
+    }
+    saleProducts = [saleProduct]
+*/
+exports.sale_products_create = (req, res, next) => {
     const { client, date, total, benefice, products } = req.body;
     
     const errors = [];
     const promises = [];
-    products.forEach(product => {
+    products.forEach(saleProduct => {
+        let { product, salePrice } = saleProduct;
         let newProduct = new Product({
             _id: new mongoose.Types.ObjectId(),
             name: product.name,
@@ -56,44 +65,63 @@ exports.sale_products_create = (req, res) => {
         //         return ids;
         //     }
         // });
-        let promise = newProduct.save().then((result) => result._id);
+        let promise = newProduct.save().then((result) => { return { product: result._id, salePrice }});
         promises.push(promise);
     });
 
-    Promise.all(promises).then(productIds => {
+    Promise.all(promises).then(saleProducts => {
         const sale = new Sale({
             client,
             date,
             total,
             benefice,
-            products: productIds,
+            products: saleProducts,
         });
         sale.save((err) => {
             if (err) {
                 return next(err);
             }
-            res.send('Sale + products saved'); // TBD --Habria que retornar un 200 ok o similar
+            res.json({ success: true});
         });
     });
 }
 
+exports.sales_get_all = (req, res) => {
+    Sale.find((err, data) => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true, data: data }); // TBD -- Hacer las demas respuestas como esta
+      });
+}
+
 exports.sale_details = (req, res) => {
-    Product.findById(req.params.id, (err, sale) => {
+    Sale.findById(req.params.id, (err, sale) => {
         if (err) return next(err);
         res.send(sale);
     })
 };
 
 exports.sale_update = (req, res) => {
-    Product.findByIdAndUpdate(req.params.id, {$set: req.body }, (err, product) => {
+    Sale.findByIdAndUpdate(req.params.id, {$set: req.body }, (err, product) => {
         if (err) return next(err);
         res.send('Sale updated');
     });
 };
 
 exports.sale_delete = (req, res) => {
-    Product.findByIdAndRemove(req.params.id, (err) => {
+    Sale.findByIdAndRemove(req.params.id, (err) => {
         if (err) return next(err);
         res.send('Sale deleted');
     })
 };
+
+exports.sales_by_date = (req, res, next) => {
+    const { from, to } = req.query;
+    console.log('from:', new Date(from))
+    const query = {
+        date: { $gte: new Date(parseInt(from,10)), $lt: new Date(parseInt(to,10)) }
+    }
+    Sale.find(query, (err, sales) => {
+        if (err) return next(err);
+        return res.json({ success: true, result: sales });
+    })
+}

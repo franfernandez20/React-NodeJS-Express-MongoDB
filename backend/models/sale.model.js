@@ -10,7 +10,12 @@ let SaleSchema = new Schema({
         required: true 
     },
     benefice: Number,
-    products: [{ type: Schema.Types.ObjectId, ref: 'Product' }]
+    products: [
+        {
+            product: { type: Schema.Types.ObjectId, ref: 'Product' },
+            salePrice: Number
+        }
+    ]
 });
 
 // Exportacion del modelo

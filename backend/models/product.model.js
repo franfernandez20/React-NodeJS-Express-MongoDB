@@ -6,7 +6,7 @@ let ProductSchema = new Schema({
     name: { 
         type: String,
         required: true,
-        max: 100 
+        // max: 100 
     },
     pvr: {
         type: Number,
