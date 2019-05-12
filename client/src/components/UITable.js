@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
@@ -236,6 +236,10 @@ function UITable(props) {
     setData(data.filter(({id}) => selected.indexOf(id) === -1));
     setSelected([]);
   }
+
+  useEffect(() => {
+    console.log('cddddddd', data);
+  }, [data])
 
   const isSelected = id => selected.indexOf(id) !== -1;
 

@@ -4,6 +4,7 @@ import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/
 import { blue, indigo, orange } from '@material-ui/core/colors'
 import Bar from './components/Bar'
 import SalesContainer from './components/sales/SalesContainer'
+import SalesPage from './containers/salesPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -20,7 +21,8 @@ const theme = createMuiTheme({
       '"Lato"',
       'sans-serif'
     ].join(',')
-  }
+  },
+  spacing: 4,
 });
 
 const App = () => (
@@ -28,7 +30,7 @@ const App = () => (
     <MuiThemeProvider theme={theme}>
       <Router>
         <Bar>
-            <Route path='/sales' component={SalesContainer} />
+            <Route path='/sales' component={SalesPage} />
         </Bar>
       </Router>
     </MuiThemeProvider>
