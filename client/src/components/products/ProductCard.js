@@ -111,7 +111,7 @@ function ProductCard(props) {
       <CardHeader
         className={classes.media}
         action={
-          <Fab color="primary" aria-label="Add" className={classes.buttonHeader}  onClick={() => onAdd(product._id)}>
+          <Fab color="primary" aria-label="Add" className={classes.buttonHeader}  onClick={() => onAdd(product)}>
             <AddIcon className={classes.iconHeader}/>
           </Fab>
         }

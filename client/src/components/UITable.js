@@ -193,7 +193,7 @@ function UITable(props) {
 
   function handleSelectAllClick(event) {
     if (event.target.checked) {
-      const newSelecteds = data.map(n => n.id);
+      const newSelecteds = data.map(n => n._id);
       setSelected(newSelecteds);
       return;
     }
@@ -268,15 +268,15 @@ function UITable(props) {
               {stableSort(data, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
-                  const isItemSelected = isSelected(n.id);
+                  const isItemSelected = isSelected(n._id);
                   return (
                     <TableRow
                       hover
-                      onClick={event => handleClick(event, n.id)}
+                      onClick={event => handleClick(event, n._id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={n.id}
+                      key={n._id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
