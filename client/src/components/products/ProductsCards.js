@@ -11,7 +11,7 @@ const ProductsCards = (props) => {
     <Grid container spacing={16}>
       {
         products.map(element => 
-          <Grid key={element._id} item>    
+          <Grid key={element._id} item>
             <ProductCard
               product={element}
               onAdd={onAddProduct}

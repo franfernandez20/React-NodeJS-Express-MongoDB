@@ -233,13 +233,14 @@ function UITable(props) {
   }
 
   function handleDelete() {
-    setData(data.filter(({id}) => selected.indexOf(id) === -1));
+    setData(data.filter(({_id}) => selected.indexOf(_id) === -1));
     setSelected([]);
   }
 
-  useEffect(() => {
-    console.log('cddddddd', data);
-  }, [data])
+  // debug
+  // useEffect(() => {
+  //   console.log('cddddddd', data);
+  // }, [data])
 
   const isSelected = id => selected.indexOf(id) !== -1;
 
@@ -266,7 +267,7 @@ function UITable(props) {
             />
             <TableBody>
               {stableSort(data, getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
                   const isItemSelected = isSelected(n._id);
                   return (
@@ -298,7 +299,7 @@ function UITable(props) {
             </TableBody>
           </Table>
         </div>
-        <TablePagination
+        {/* <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={data.length}
@@ -312,7 +313,7 @@ function UITable(props) {
           }}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
+        /> */}
       </Paper>
       {/* <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
