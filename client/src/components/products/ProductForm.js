@@ -36,6 +36,11 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
   },
+  select: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    minWidth: '150px'
+  },
   textAreaField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
@@ -282,9 +287,9 @@ class ProductForm extends React.Component {
             <TextField
               id="category"
               select
-              label="Categoría"
+              label={category ? '' : 'Categoría'}
               required
-              className={classes.textField}
+              className={classes.select}
               value={category ? category : 'Category'}
               onChange={this.handleChange('category')}
               SelectProps={{

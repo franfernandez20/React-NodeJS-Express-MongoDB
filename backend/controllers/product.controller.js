@@ -46,15 +46,25 @@ exports.product_details = (req, res, next) => {
 
 exports.product_find = (req, res, next) => {
     const { name, category, description } = req.query;
-    const query = {
+    
+    /** Comprobacion auxiliar que no son strigns vacios */
+    // const isEmptyFunc = (elem, isEmpty) => {
+    //     if (typeof elem !== 'undefined' && elem.length === 0)
+    //         return true;
+    //     return isEmpty;
+    // }
+    // if (isEmptyFunc(description, isEmptyFunc(category, isEmptyFunc(name,false))))
+    //     return res.json({ success: false, error: 'Empty find' });
+    /** FIN Comprobacion */
+        const query = {
         name: new RegExp(name,'i'),
         category: new RegExp(category,'i'),
         description: new RegExp(description,'i')
     }
     Product.find(query, (err, product) => {
-        if (err) return next(err);
+        if (err) res.json({ success: false, error: next(err) });
         return res.json({ success: true, result: product });
-    })
+    }).limit(100)
 }
 
 exports.product_update = (req, res) => {
