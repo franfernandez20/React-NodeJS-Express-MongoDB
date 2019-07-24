@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
+import productServer from './../../servers/productServer'
 
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
@@ -141,32 +142,16 @@ class ProductForm extends React.Component {
     const { saveForm, onClose } = this.props;
 
     if(saveForm) {
-      fetch(`http://localhost:3001/products/create`, {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        mode: "cors", // no-cors, cors, *same-origin
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "same-origin", // include, *same-origin, omit
-        headers: {
-            "Content-Type": "application/json",
-            // "Content-Type": "application/x-www-form-urlencoded",
-        },
-        redirect: "follow", // manual, *follow, error
-        referrer: "no-referrer", // no-referrer, *client
-        body: JSON.stringify(this.state), // body data type must match "Content-Type" header
-      }).then(res => res.json())
-      .then(response => console.log('Success:', JSON.stringify(response))) //TBD mensaje SUCCESS
-      .catch(error => console.error('Error:', error));
+      productServer.save()
+        .then(response => console.log('Success:', JSON.stringify(response))) //TBD mensaje SUCCESS
+        .catch(error => console.error('Error:', error));
     }
     if (typeof onClose === 'function') onClose();
   }
 
   handleDelete(id) {
     console.log('deleting',id)
-    fetch(`http://localhost:3001/products/delete/${id}`, {
-      method: "DELETE", // *GET, POST, PUT, DELETE, etc.
-    }).then(res => res.json())
-    .then(response => console.log('Success:', JSON.stringify(response)))
-    .catch(error => console.error('Error:', error));
+    productServer.deleteById(id).then((result) => console.log('SUCCESS', result)).catch()
     this.props.onClose();
   }
 
@@ -378,8 +363,6 @@ class ProductForm extends React.Component {
                 <AddCircleOutline className={classes.leftIcon} />
                 Añadir
               </Button>
-
-
             }
           </Grid>
           <Grid item xs={2}>
