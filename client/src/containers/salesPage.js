@@ -52,6 +52,8 @@ const SalesPage = (props) => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   const [category, setCategory] = useState();
+  
+  const [tempId, setTempId] = useState(0);
 
   const InputLabelRef = useRef(null);
 
@@ -89,13 +91,18 @@ const SalesPage = (props) => {
    * END UITable Settings
    */
 
-  const handleAddProduct = (product) => {
+  const handleAddProduct = (product) => {    
+    if (typeof product._id === 'undefined') {
+      product._id = tempId; 
+      setTempId(tempId + 1);
+    }
     console.log('EL prodcuto desde fuera del componente', product);
     console.log('cart:', cart);
-    setCart([...cart,product]);
+    setCart([...cart, product]);
   }
 
   const openAddProduct = () => {
+    setProductInfo({});
     setOpenProductModal(true);
   }
   const closeAddProduct = () => {
@@ -172,7 +179,7 @@ const SalesPage = (props) => {
       </Grid>
     
       {/* <ProductInfo id={'5c68513c8001db327e6ee93d'}/> */}
-      <Button onClick={openAddProduct}>Open Modal</Button>
+      {/* <Button onClick={openAddProduct}>Open Modal</Button> */}
       {/* <ProductFormModal
       open={openProductModal}
       onAdd={handleAddProduct}
